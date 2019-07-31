@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/operators/index.js"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AACA;;AACA","sourcesContent":["export { default as setStorage } from './setStorage'\nexport { default as getStorage } from './getStorage'\nexport { default as removeStorage } from './removeStorage'\n"],"file":"index.js"}
