@@ -1,0 +1,48 @@
+import { Module } from 'cerebral'
+import StorageProvider from './StorageProvider'
+
+export { default as StorageProviderError } from './StorageProviderError'
+
+export default (options) => {
+  return Module(({ name, controller }) => {
+    controller.once('initialized:model', () => {
+      const targetStorage = options.target || localStorage
+
+      Object.keys(options.sync || {}).forEach((syncKey) => {
+        const value = targetStorage.getItem(options.prefix + syncKey)
+
+        if (!value) {
+          return
+        }
+
+        const path = options.sync[syncKey].split('.')
+        controller.model.set(path, options.json ? JSON.parse(value) : value)
+      })
+    })
+
+    if (options.sync) {
+      controller.on('flush', (changes) => {
+        changes.forEach((change) => {
+          Object.keys(options.sync).forEach((syncKey) => {
+            if (change.path.join('.').indexOf(options.sync[syncKey]) === 0) {
+              const value = controller.getState(options.sync[syncKey])
+
+              value === undefined
+                ? options.target.removeItem(options.prefix + syncKey)
+                : options.target.setItem(
+                    options.prefix + syncKey,
+                    options.json ? JSON.stringify(value) : value
+                  )
+            }
+          })
+        })
+      })
+    }
+
+    return {
+      providers: {
+        [name]: StorageProvider(options),
+      },
+    }
+  })
+}
