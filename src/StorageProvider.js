@@ -1,4 +1,3 @@
-import { Provider } from 'cerebral'
 import StorageProviderError from './StorageProviderError'
 export { default as StorageProviderError } from './StorageProviderError'
 
@@ -8,7 +7,7 @@ function StorageProvider(options = {}) {
   options.json = 'json' in options ? options.json : true
   options.prefix = options.prefix ? options.prefix + '.' : ''
 
-  return Provider({
+  return {
     get(key) {
       const value = target.getItem(options.prefix + key)
 
@@ -52,7 +51,7 @@ function StorageProvider(options = {}) {
         })
       }
     },
-  })
+  }
 }
 
 export default StorageProvider
