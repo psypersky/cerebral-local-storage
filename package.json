@@ -30,7 +30,7 @@
     "@babel/preset-env": "^7.5.5",
     "cerebral": "next",
     "cross-env": "^5.2.0",
-    "mocha": "^6.2.0"
+    "mocha": "^10.2.0"
   },
   "peerDependencies": {
     "cerebral": "next"
